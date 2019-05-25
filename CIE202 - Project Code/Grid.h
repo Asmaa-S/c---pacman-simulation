@@ -34,6 +34,7 @@ public:
 
 	void setCell(int r, int c, Cell* pCell);	//updates cell r,c to hold the new pointer pCell
 	
+	void MoveRand(Cell* enemyCurrentCell);  
 	bool MoveIfPossible(Cell * pCurrentCell, ActionType dir); // Moves the entered position in the passed direction if no obstacles
 	                                                       // updates currentCell if move takes place
 	                                                       // Note: It returns bool indicating if a move occured or not
