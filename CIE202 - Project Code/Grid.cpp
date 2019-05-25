@@ -3,6 +3,7 @@
 #include<string>
 #include <cstdlib> 
 #include "enemyCell.h"
+#include "DEFS.h"
 #include "Player.h"
 #include "EmptyCell.h"
 #include "PlayerCell.h"
@@ -13,13 +14,14 @@
 #include"LifeCell.h"
 #include"EnemyBusterCell.h"
 #include "CMUgraphicsLib\CMUgraphics.h"
+#include "Cell.h"
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 
 using namespace std;
 
-
+Cell enemyCurrentCell;
 Grid::Grid() 
 {
 	// initializes all the GameObject pointer of the List to NULL
@@ -62,6 +64,44 @@ Cell Grid::GetCellClicked() {
 //	}
 }
 
+
+void Grid::MoveRand(Cell* enemyCurrentCell)
+{
+	int enemyOldRow = enemyCurrentCell->getRow();
+	int enemyOldCol = enemyCurrentCell->getCol();
+
+	int TargetRow = enemyOldRow;
+	int TargetCol = enemyOldCol;
+
+	
+	do {
+		TargetRow = rand() % (ciDefWindWidth - 2) + 1;
+		TargetCol = rand() % (ciDefWindHeight - 2) + 1;
+
+	}    //the obstacle  
+
+	//if the Target Place is not free , try again 
+	while (! (EMPTY_CELL || PLAYER_CELL));
+
+	//get the target cell
+	Cell *enemyTargetCell = GameCells[TargetRow][TargetCol];
+
+	//enemy should be moved to the target cell
+	//1-delete the target cell and make it point to the enemyCell
+	setCell(TargetRow, TargetCol, enemyCurrentCell);
+
+	//2- update enemy position
+	enemyCurrentCell->SetRow(TargetRow);
+	enemyCurrentCell->SetCol(TargetCol);
+
+	//3- Convert the old enemy position to an Empty cell
+	GameCells[enemyOldRow][enemyOldCol] = new EmptyCell(enemyOldRow, enemyOldCol);
+
+	//4- Redraw both cells
+	pGUI->DrawCell(GameCells[TargetRow][TargetCol]);
+	pGUI->DrawCell(GameCells[enemyOldRow][enemyOldCol]);
+
+}
 
 
 
@@ -144,9 +184,11 @@ void Grid::DrawAllCells() const
 }
 
 void Grid::setCell(int row, int col, Cell* pCell)
-{	
-	if(GameCells[row][col])
+{
+	if (GameCells[row][col])
+	
 		delete GameCells[row][col];	//if cell ptr is not null, delete it first
+	
 	
 	GameCells[row][col] = pCell;
 
@@ -406,6 +448,7 @@ void Grid::RunModes()
 
 		{
 			ActionType act = GetUserAction();
+			
 
 			if (act == EXIT)
 				return;

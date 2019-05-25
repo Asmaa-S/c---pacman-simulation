@@ -1,7 +1,9 @@
 #include "enemyCell.h"
 #include "cell.h"
 #include "Player.h"
-enemyCell::enemyCell(int row, int col) :Cell(row, col)
+#include "GUI.h"
+#include "Grid.h"
+enemyCell::enemyCell(int row, int col) :Cell(row, col) 
 {
 	ImagePath = "images\\Cells\\enemy.jpg";
 }
@@ -10,6 +12,9 @@ enemyCell::enemyCell(int row, int col) :Cell(row, col)
 enemyCell::~enemyCell()
 {
 	ImagePath = "Images\\Cells\\EmptyCell.jpg";
+}
+ void enemyCell::Move(Cell &enemyCurrentCell) {
+	
 }
 
 int enemyCell::GetCellType()
