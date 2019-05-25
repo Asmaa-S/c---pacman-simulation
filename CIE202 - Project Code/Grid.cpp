@@ -281,10 +281,10 @@ void Grid::addselectedmenuitem(ActionType actxion)
 {
 	ActionType currentaxn; //ADD_EMPTY;
 
-    Cell cell = GetCellClicked();
+	Cell cell = GetCellClicked();
 	int row = cell.getRow();
 	int col = cell.getCol();
-		
+
 
 	if (row == 7 && col == 12 || row == NumRowCells - 2 && col == NumColumnCells - 2) {
 		pGUI->PrintMessage("You can't replace or delete either the player cell or the goal cell");
@@ -367,7 +367,9 @@ void Grid::addselectedmenuitem(ActionType actxion)
 
 	}
 
-		}
+}
+
+
 		
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -392,15 +394,7 @@ void Grid::RunModes()
 			ExecuteAction(act);
 
 			addselectedmenuitem(act);
-			/*
-			if (pGUI->GetUserAction() == START)
-			{
-				ExecuteAction(START);
-				pGUI->setInterfaceMode(MODE_GAME);
-				resetplayerposition(player);
-				RunModes();
-			}
-			*/
+			
 		}
 		if (pGUI->getInterfaceMode() == MODE_GAME)
 
@@ -440,7 +434,6 @@ void Grid::RunApp()
 	setCell(rowg-2, colg-2, ggCell);
 	pGUI->DrawCell(ggCell);
 	
-	ExecuteAction(GetUserAction());
 	RunModes();
 	
 
